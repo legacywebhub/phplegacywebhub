@@ -22,7 +22,7 @@
                     <div class="form-group row">
                         <label class="col-sm-3 col-form-label">Select Profile Picture</label>
                         <div class="col-sm-9">
-                        <input type="file" class="form-control" name="profile_picture" onchange="displayImageEdit(this.files[0]);">
+                        <input type="file" class="form-control" name="profile_picture" onchange="previewImage(this.files[0]);">
                         <small class="ml-2 text-danger">Allowed extensions - (jpeg, jpg, png) / Maximum file size - 2mb</small>
                         </div>
                     </div>

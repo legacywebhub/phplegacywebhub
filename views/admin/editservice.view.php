@@ -2,7 +2,7 @@
     <div class="col-12 grid-margin stretch-card">
         <div class="card">
             <div class="card-body">
-                <h4 class="card-title">Add New Service</h4>
+                <h4 class="card-title">Edit Service</h4>
                 <?php if (isset($_SESSION['message'])): ?>
                 <div class="form-group">
                     <h6 class="col-12 text-<?=$_SESSION['message_tag']; ?>" style="display: flex; justify-content: center;">
@@ -15,7 +15,7 @@
                         <input type="hidden" name="csrf_token" value="<?=$_SESSION['csrf_token']; ?>">
                         <label class="col-sm-3 col-form-label">Service <span class="text-danger">*</span></label>
                         <div class="col-sm-9">
-                        <input type="text" class="form-control" name="service" placeholder="i.e programming" required>
+                        <input type="text" class="form-control" name="service" value="<?=$context['service']['service']; ?>" required>
                         </div>
                     </div>
                     <div class="mt-5">

@@ -280,20 +280,42 @@ function handle_image($file, string $folder = '') {
     return $response;
 }
 
+// FUNCTION TO REORGANISE MULTIPLE $_FILES OBJECTS
+function organise_files($files) {
+
+    // New empty array
+    $organized_files = array();
+    
+    foreach ($files as $key => $fileAttributes) {
+        foreach ($fileAttributes as $index => $value) {
+            $organized_files[$index][$key] = $value;
+        }
+    }
+    
+    // Now $organized_files is an array of arrays
+    // each representing a single file
+    return $organized_files;
+}
+
 // FUNCTION TO VALIDATE AND UPLOAD IMAGES
 function handle_multiple_image($files, string $folder = '') {
-    $files_uploaded = 0;
+    // Reorganising files
+    $files = organise_files($files);
+    // Number of files passed
     $total_files = count($files);
+    // Default state
+    $uploaded_files = [];
+    $total_uploaded = 0;
 
     foreach($files as $file) {
         $file_name = $file['name'];
         $file_tmp_name = $file['tmp_name'];
         $file_size = $file['size'];
         $file_error = $file['error'];
-        $response = [];
-    
-        if ($file_error === 0 && $file_size < 2097152) {
-            // If no errors and file size is below size limit
+        
+
+        if ($file_error === 0 && $file_size < 5242880) {
+            // If no errors and file size is below size limit (5mb)
     
             // Extracting file extension from file name
             $file_extension = pathinfo($file_name, PATHINFO_EXTENSION);
@@ -311,27 +333,34 @@ function handle_multiple_image($files, string $folder = '') {
                 $image_upload_path = MEDIA_PATH . '/' . $folder . '/' . $new_file_name;
                 // Moving uploaded file to defined upload path
                 move_uploaded_file($file_tmp_name, $image_upload_path);
+                // Adding new file to uploaded file list
+                array_push($uploaded_files, $new_file_name);
                 // Increment files uploaded
-                $files_uploaded++;
+                $total_uploaded++;
             }
 
         }
     };
 
-    if ($files_uploaded == $total_files) {
+    if ($total_uploaded == $total_files) {
         $response = [
             'status'=>"success",
-            'message'=> "Files uploaded successfully"
+            'message'=> "All images uploaded successfully",
+            'images' => $uploaded_files,
+            'total_uploaded'=> $total_uploaded
         ];
-    } else if ($files_uploaded > 0 && $files_uploaded < $total_files) {
+    } else if ($total_uploaded > 0 && $total_uploaded < $total_files) {
         $response = [
             'status'=>"partial",
-            'message'=> $files_uploaded." out of ". $total_files . "uploaded succesfully"
+            'message'=> $total_uploaded." out of ".$total_files." images uploaded succesfully",
+            'images' => $uploaded_files,
+            'total_uploaded'=> $total_uploaded
         ];
-    } else if ($files_uploaded == 0) {
+    } else if ($total_uploaded == 0) {
         $response = [
             'status'=>"failed",
-            'message'=> "No file uploaded"
+            'message'=> "No image was uploaded",
+            'total_uploaded'=> $total_uploaded
         ];
     }
     return $response;
@@ -403,6 +432,16 @@ function fetch_user(int $id) {
         return $matched_users[0]['username'];
     }
     return "No User";
+}
+
+// FUNCTION TO FETCH SERVICES USING THEIR IDS
+function fetch_service(int $id) {
+    $matched_services = query_fetch("SELECT * FROM services WHERE id = $id LIMIT 1");
+
+    if (!empty($matched_services)) {
+        return $matched_services[0]['service'];
+    }
+    return "No Service";
 }
 
 // FUNCTION TO SEND MAIL

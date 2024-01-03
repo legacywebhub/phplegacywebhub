@@ -142,7 +142,7 @@ function create_tables() {
 
         id int primary key auto_increment,
         service_id varchar(60) not null,
-        name varchar(100) not null,
+        title varchar(100) not null,
         description text(2050) not null,
         repo_link varchar(255) null,
         website varchar(100) null,

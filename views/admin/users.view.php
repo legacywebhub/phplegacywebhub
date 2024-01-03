@@ -113,7 +113,7 @@
                                     <div class="dataTables_paginate paging_simple_numbers" id="order-listing_paginate">
                                         <ul class="pagination">
                                             <?php if ($context['users']['has_previous']): ?>
-                                            <li class="paginate_button page-item previous disabled" id="order-listing_previous">
+                                            <li class="paginate_button page-item previous" id="order-listing_previous">
                                                 <a href="?page=<?=$context['users']['previous_page'] ?>" aria-controls="order-listing" data-dt-idx="0" tabindex="0" class="page-link">Previous</a>
                                             </li>
                                             <?php else: ?>
@@ -127,7 +127,7 @@
                                             </li>
 
                                             <?php if ($context['users']['has_next']): ?>
-                                            <li class="paginate_button page-item next disabled" id="order-listing_next">
+                                            <li class="paginate_button page-item next" id="order-listing_next">
                                                 <a href="?page=<?=$context['users']['next_page'] ?>" aria-controls="order-listing" data-dt-idx="2" tabindex="0" class="page-link">Next</a>
                                             </li>
                                             <?php else: ?>

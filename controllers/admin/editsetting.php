@@ -31,6 +31,11 @@ if (!isset($_GET['id'])) {
 // Handling edit setting request
 if ($_SERVER["REQUEST_METHOD"]  == "POST" && $_POST['csrf_token'] === $_SESSION['csrf_token']) {
 
+    // Checking if Admin is superuser
+    if ($admin['is_superuser'] == 0) {
+        redirect("settings", "Sorry.. You don't have such privilege", "danger");
+    }
+
     // Declaring DB variables as PHP array
     $data = [];
     $data['id'] = intval($setting['id']);

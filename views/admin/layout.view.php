@@ -18,6 +18,13 @@
   <link rel="stylesheet" href="<?=STATIC_ROOT; ?>/dashboard/css/style.css">
   <!-- endinject -->
   <link rel="shortcut icon" href="http://www.urbanui.com/" />
+  <!-- inline style -->
+  <style>
+    .image-preview {
+        width: 150px !important;
+        margin-right: 5px;
+    }
+  </style>
 </head>
 <body>
   <div class="container-scroller">
@@ -238,11 +245,15 @@
           <li class="nav-item nav-profile">
             <div class="nav-link">
               <div class="profile-image">
-                <img src="<?=MEDIA_ROOT; ?>/users/<?=$context['admin']['profile_pic']; ?>" alt="image"/>
+                <?php if (empty($context['admin']['profile_pic'])): ?>
+                  <img src="<?=STATIC_ROOT; ?>/no_image.png" alt="no image">
+                <?php else: ?>
+                  <img src="<?=MEDIA_ROOT; ?>/users/<?=$context['admin']['profile_pic']; ?>" alt="image">
+                <?php endif ?>
               </div>
               <div class="profile-name">
                 <p class="name">
-                  Welcome <?=$context['admin']['profile_pic']; ?>
+                  Welcome <?=$context['admin']['username']; ?>
                 </p>
                 <p class="designation">
                   Super Admin
@@ -399,9 +410,31 @@
   <!-- End custom js for this page-->
   <!-- inline script -->
   <script>
-    let displayImageEdit = (file) => {
-        document.querySelector('.image-preview').src = URL.createObjectURL(file);
+    let previewImage = (file) => {
+      document.querySelector('.image-preview').src = URL.createObjectURL(file);
     };
+
+    let previewImages = (files) => {
+      // Get the container element where image previews will be displayed
+      let imageContainer = document.querySelector('.image-container');
+      
+      // Clear existing previews
+      imageContainer.innerHTML = '';
+
+      // Loop through each selected file and create a preview
+      for (const file of files) {
+          // Create a new image element
+          let imageElement = document.createElement('img');
+          imageElement.classList.add('image-preview');
+
+          // Set the source of the image element to the URL of the selected file
+          imageElement.src = URL.createObjectURL(file);
+
+          // Append the image element to the container
+          imageContainer.appendChild(imageElement);
+      }
+    };
+
   </script>
 </body>
 

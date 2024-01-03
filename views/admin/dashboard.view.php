@@ -13,7 +13,7 @@
                         <i class="icon-sm fa fa-user mr-2"></i>
                         Users
                     </p>
-                    <h2>54000</h2>
+                    <h2><?=$context['admin']['total_users']; ?></h2>
                     <label class="badge badge-outline-success badge-pill">2.7% increase</label>
                 </div>
                 <div class="statistics-item">
@@ -21,7 +21,7 @@
                         <i class="icon-sm fa fa-user mr-2"></i>
                         Subscribers
                     </p>
-                    <h2>54000</h2>
+                    <h2><?=$context['admin']['total_subscribers']; ?></h2>
                     <label class="badge badge-outline-success badge-pill">2.7% increase</label>
                 </div>
                 <div class="statistics-item">
@@ -29,7 +29,7 @@
                         <i class="icon-sm fas fa-hourglass-half mr-2"></i>
                         Services
                     </p>
-                    <h2>123.50</h2>
+                    <h2><?=$context['admin']['total_services']; ?></h2>
                     <label class="badge badge-outline-danger badge-pill">30% decrease</label>
                 </div>
                 <div class="statistics-item">
@@ -37,7 +37,7 @@
                         <i class="icon-sm fas fa-cloud-download-alt mr-2"></i>
                         Portfolio
                     </p>
-                    <h2>3500</h2>
+                    <h2><?=$context['admin']['total_portfolios']; ?></h2>
                     <label class="badge badge-outline-success badge-pill">12% increase</label>
                 </div>
                 <div class="statistics-item">
@@ -45,7 +45,7 @@
                         <i class="icon-sm fas fa-check-circle mr-2"></i>
                         Testimonials
                     </p>
-                    <h2>7500</h2>
+                    <h2><?=$context['admin']['total_testimonials']; ?></h2>
                     <label class="badge badge-outline-success badge-pill">57% increase</label>
                 </div>
                 <div class="statistics-item">
@@ -53,7 +53,7 @@
                         <i class="icon-sm fas fa-check-circle mr-2"></i>
                         Messages
                     </p>
-                    <h2>7500</h2>
+                    <h2><?=$context['admin']['total_messages']; ?></h2>
                     <label class="badge badge-outline-success badge-pill">57% increase</label>
                 </div>
             </div>

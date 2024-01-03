@@ -1,18 +1,18 @@
 <?php
 
 // Authorizing admin
-//$admin = admin_logged_in();
+$admin = admin_logged_in();
 
 // Other variables
 $settings = paginate("SELECT * FROM company ORDER BY id DESC", 15);
-$company = $settings[0];
-$title = ucfirst($company['name'])." | Dashboard";
+$company = $settings['result'][0];
+$title = ucfirst($company['name'])." | Settings";
 
 
 $context = [
     'company'=> $company,
     'title'=> $title,
-    //'admin'=> $admin,
+    'admin'=> $admin,
     'settings'=> $settings
 ];
 

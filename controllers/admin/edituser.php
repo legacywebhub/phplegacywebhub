@@ -18,6 +18,7 @@ if (!isset($_GET['id'])) {
         } else {
             // Else return user
             $user = $matching_users[0];
+            $user_id = $user['id'];
         }
     } catch (Exception) {
         redirect("users");
@@ -30,6 +31,11 @@ $title = ucfirst($company['name'])." | Edit User";
 
 // Handling edit user request
 if ($_SERVER["REQUEST_METHOD"] == "POST" && $_POST['csrf_token'] === $_SESSION['csrf_token']) {
+
+    // Checking if Admin is superuser
+    if ($admin['is_superuser'] == 0) {
+        redirect("users", "Sorry.. You don't have such privilege", "danger");
+    }
 
     if (!empty($_POST['password1']) && !empty($_POST['password2'])) {
         if ($_POST['password1'] != $_POST['password2']) {

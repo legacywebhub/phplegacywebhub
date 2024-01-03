@@ -7,14 +7,14 @@ $admin = admin_logged_in();
 if (!isset($_GET['id'])) {
     redirect("users");
 } else {
-    // Getting id
-    $id = intval($_GET['id']);
 
     // Checking if Admin is superuser or current logged in admin
-    if ($id == intval($admin['id']) || $admin['is_superuser'] == 0) {
+    if ($id == $admin['id'] || $admin['is_superuser'] == 0) {
         redirect("users", "Sorry.. You don't have such privilege", "danger");
     }
 
+    // Getting id
+    $id = intval($_GET['id']);
     //  Checking for matching users
     $matched_users = query_fetch("SELECT * FROM users WHERE id = $id LIMIT 1");
 
