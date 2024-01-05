@@ -25,7 +25,7 @@ if ($_SERVER["SERVER_NAME"]  == "localhost") {
     define('DBPASS', "");
 
     // HTML BASE PATHS
-    define('ROOT', "http://localhost/legacywebhub");
+    define('ROOT', "http://localhost/phplegacywebhub");
     define('MEDIA_ROOT', ROOT . '/media');
     define('STATIC_ROOT', ROOT . '/assets');
 

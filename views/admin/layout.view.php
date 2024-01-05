@@ -6,13 +6,14 @@
   <!-- Required meta tags -->
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <title>Melody Admin</title>
+  <title><?=$context['title']; ?></title>
   <!-- plugins:css -->
   <link rel="stylesheet" href="<?=STATIC_ROOT; ?>/dashboard/vendors/iconfonts/font-awesome/css/all.min.css">
   <link rel="stylesheet" href="<?=STATIC_ROOT; ?>/dashboard/vendors/css/vendor.bundle.base.css">
   <link rel="stylesheet" href="<?=STATIC_ROOT; ?>/dashboard/vendors/css/vendor.bundle.addons.css">
   <!-- endinject -->
   <!-- plugin css for this page -->
+  <link rel="stylesheet" href="<?=STATIC_ROOT; ?>/dashboard/vendors/summernote/dist/summernote-bs4.css">
   <!-- End plugin css for this page -->
   <!-- inject:css -->
   <link rel="stylesheet" href="<?=STATIC_ROOT; ?>/dashboard/css/style.css">
@@ -397,6 +398,8 @@
   <script src="<?=STATIC_ROOT; ?>/dashboard/vendors/js/vendor.bundle.addons.js"></script>
   <!-- endinject -->
   <!-- Plugin js for this page-->
+  <script src="<?=STATIC_ROOT; ?>/dashboard/vendors/summernote/dist/summernote-bs4.min.js"></script>
+    <script src="<?=STATIC_ROOT; ?>/dashboard/js/editorDemo.js"></script>
   <!-- End plugin js for this page-->
   <!-- inject:js -->
   <script src="<?=STATIC_ROOT; ?>/dashboard/js/off-canvas.js"></script>
@@ -412,9 +415,12 @@
   <script>
     let previewImage = (file) => {
       document.querySelector('.image-preview').src = URL.createObjectURL(file);
+      // Use onchange="previewImage(this.files[0]);" on the file input field
     };
 
     let previewImages = (files) => {
+      // Use onchange="previewImage(this.files);" on the file input field
+
       // Get the container element where image previews will be displayed
       let imageContainer = document.querySelector('.image-container');
       
@@ -435,6 +441,62 @@
       }
     };
 
+    let previewPostImage = (text) => {
+      try {
+        console.log(text);
+
+        // Get the container element where image previews will be displayed
+        let imageContainer = document.querySelector('.image-container');
+      
+        // Clear existing previews
+        imageContainer.innerHTML = '';
+
+        // Create a new image element
+        let imageElement = document.createElement('img');
+        imageElement.classList.add('image-preview');
+        imageElement.style.width = "150px";
+
+        // Set the source of the image element to the URL of the selected file
+        imageElement.src = text;
+
+        // Append the image element to the container
+        imageContainer.appendChild(imageElement);
+        //document.querySelector('.image-preview').src = text;
+      } catch (error) {
+        //console.error('Error previewing image:', error);
+        alert('Error occured. Paste another image address');
+      }
+    };
+
+    // This functions only allows input fields to accept numbers
+    function onlyNumberKey(evt) {
+      // Only ASCII character in that range allowed
+      var ASCIICode = (evt.which) ? evt.which : evt.keyCode
+      if (ASCIICode > 31 && (ASCIICode < 48 || ASCIICode > 57))
+      return false; 
+      return true;
+      // use  onkeypress="return onlyNumberKey(event)" on the input field
+    }
+
+    // Copy texts js
+    function copyText(arg) {
+      console.log('clicked a button');
+      // Get the input or text field
+      //var copyText = document.getElementById("myInput");
+
+      // Select the text field
+      arg.select();
+      arg.setSelectionRange(0, 99999); // For mobile devices
+
+      // Copy the text inside the text field
+      navigator.clipboard.writeText(arg.value).then(()=>{
+        // Alert the copied text
+        alert("Copied");
+      }).catch(()=>{
+        // Alert the copied text
+        alert("Something went wrong");
+      });
+    }
   </script>
 </body>
 

@@ -1,7 +1,7 @@
 <?php
 
 // Authorizing admin
-//$admin = admin_logged_in();
+$admin = admin_logged_in();
 
 // Other variables
 $company = query_fetch("SELECT * FROM company ORDER BY id DESC LIMIT 1")[0];
@@ -19,7 +19,7 @@ if (isset($_GET['search'])) {
 $context = [
     'company'=> $company,
     'title'=> $title,
-    //'admin'=> $admin,
+    'admin'=> $admin,
     'post_categories'=> $post_categories
 ];
 

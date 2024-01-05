@@ -18,10 +18,10 @@ if (!isset($_GET['id'])) {
         $matching_services = query_fetch("SELECT * FROM services WHERE id = $id LIMIT 1");
 
         if (empty($matching_services)) {
-            // Redirect if no matching user
+            // Redirect if no matching service
             redirect("services");
         } else {
-            // Else return user
+            // Else return service
             $service = $matching_services[0];
         }
     } catch (Exception) {

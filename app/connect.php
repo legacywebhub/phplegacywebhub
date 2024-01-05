@@ -197,15 +197,20 @@ function create_tables() {
         id int primary key auto_increment,
         user_id int not null,
         category_id int not null,
+        image varchar(2050) null,
+        slug varchar(200) not null,
         title varchar(200) not null,
-        content text(10500) not null,
+        content text(50500) not null,
         quote varchar(300) null,
         document varchar(300) null,
         video varchar(1050) null,
         video_url varchar(1050) null,
         youtube varchar(2050) null,
         created_at datetime default current_timestamp,
-        last_modified datetime null
+        last_modified datetime null,
+
+        key name (slug),
+        unique (slug)
 
     )";
     $statement = $con->prepare($query);
@@ -215,6 +220,8 @@ function create_tables() {
 
         id int primary key auto_increment,
         user_id int unsigned null,
+        name varchar(30) null,
+        email varchar(60) null,
         post_id int unsigned not null,
         comment text(1050) not null,
         date datetime default current_timestamp

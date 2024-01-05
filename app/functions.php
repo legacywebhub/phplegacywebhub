@@ -225,6 +225,62 @@ function generate_unique_id($length = 10) {
 }
 
 // FUNCTION TO VALIDATE AND UPLOAD IMAGES
+function handle_document($file, string $folder = '') {
+    $file_name = $file['name'];
+    $file_tmp_name = $file['tmp_name'];
+    $file_size = $file['size'];
+    $file_error = $file['error'];
+    $response = [];
+
+    if ($file_error === 0) {
+        // If no errors
+        if ($file_size > 5242880) {
+            $response = [
+                'status'=>"failed",
+                'message'=> "File size is too large. Maximum allowable file size is 2mb"
+            ];
+        } else {
+            // If file size is below size limit
+
+            // Extracting file extension from file name
+            $file_extension = pathinfo($file_name, PATHINFO_EXTENSION);
+            // Setting file extension to lowercase
+            $file_extension = strtolower($file_extension);
+            // Allowable extensions
+            $accepted_extensions = array('pdf', 'doc', 'docs', 'docx', 'csv', 'xlsx', 'ppt', 'jpeg', 'jpg');
+
+            if (in_array($file_extension, $accepted_extensions)) {
+                // If file extension is among accepted extensions
+
+                // Generating a new unique name and appending to the file extension
+                $new_file_name = uniqid("DOC-", true).'.'.$file_extension;
+                // Defining the upload path
+                $document_upload_path = MEDIA_PATH . '/' . $folder . '/' . $new_file_name;
+                // Moving uploaded file to defined upload path
+                move_uploaded_file($file_tmp_name, $document_upload_path);
+                // Giving positive feedback or response
+                $response = [
+                    'status'=>"success",
+                    'message'=> "Upload successful",
+                    'new_file_name'=> $new_file_name
+                ];
+            } else {
+                $response = [
+                    'status'=>"failed",
+                    'message'=> "Invalid file type"
+                ];
+            }
+        }
+    } else {
+        $response = [
+            'status'=>"failed",
+            'message'=> "Unknown error occured"
+        ];
+    }
+    return $response;
+}
+
+// FUNCTION TO VALIDATE AND UPLOAD IMAGES
 function handle_image($file, string $folder = '') {
     $file_name = $file['name'];
     $file_tmp_name = $file['tmp_name'];
@@ -415,12 +471,12 @@ function paginate(string $query, int $results_per_page) {
 }
 
 // FUNCTION TO FETCH IMAGE
-function fetch_image($image) {
-    if ($image == null || !file_exists(APP_PATH . "media/$image")) {
+function fetch_image($image, $folder = '') {
+    if ($image == null || !file_exists(APP_PATH . "media/$folder/$image")) {
         // If file does not exist or null
         return STATIC_ROOT . "/no_image.png";
     } else {
-        return MEDIA_ROOT . "/$image";
+        return MEDIA_ROOT . "/$folder/$image";
     }
 }
 
@@ -442,6 +498,26 @@ function fetch_service(int $id) {
         return $matched_services[0]['service'];
     }
     return "No Service";
+}
+
+// FUNCTION TO FETCH POST CATEGORIES USING THEIR IDS
+function fetch_post_category(int $id) {
+    $matched_categories = query_fetch("SELECT * FROM post_categories WHERE id = $id LIMIT 1");
+
+    if (!empty($matched_categories)) {
+        return $matched_categories[0]['category'];
+    }
+    return "Invalid Category";
+}
+
+// FUNCTION TO FETCH POSTS USING THEIR IDS
+function fetch_post(int $id) {
+    $matched_posts = query_fetch("SELECT * FROM posts WHERE id = $id LIMIT 1");
+
+    if (!empty($matched_posts)) {
+        return truncate_string($matched_posts[0]['title'], 5);
+    }
+    return "Invalid Post";
 }
 
 // FUNCTION TO SEND MAIL
